@@ -3,7 +3,7 @@ import { getCms } from '../service/api'
 import { getImageUrl } from '../utils/cms'
 
 const sections = await getCms('/categories', {
-    populate: 'image'
+    populate: '*'
 })
 
 const getImageSourceSet = (image) => `
@@ -16,7 +16,9 @@ const getSectionClass = (index: number) => {
   return `service-section ${altBackground}`
 }
 ---
-{sections.map((section, index) => (
+{sections
+  .sort((a, b) => a.menu_item.order - b.menu_item.order)
+  .map((section, index) => (
   <article id={section.identifier} class={getSectionClass(index)}>
     <div class="container service-grid">
         <div class="service-text">

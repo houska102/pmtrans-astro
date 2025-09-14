@@ -7,7 +7,9 @@ const getNavClasses = (navItem) => navItem.mobileOnly ? 'sm-only' : ''
 ---
 
 <ul class="nav-links">
-  {navItems.map((navItem) => (
+  {navItems
+  .sort((a, b) => a.order - b.order)
+  .map((navItem) => (
      <li>
       <a
         href={navItem.url}

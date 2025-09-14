@@ -1,4 +1,9 @@
 ---
+import Address from "../components/Address.astro";
+import Contacts from "../components/Contacts.astro";
+import Gallery from "../components/Gallery.astro";
+import HeroBanner from "../components/HeroBanner.astro";
+import Navigation from "../components/Navigation.astro";
 import Sections from "../components/Sections.astro";
 import Layout from '../layouts/Layout.astro';
 
@@ -7,5 +12,12 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
+  <slot slot="navigation">
+    <Navigation />
+  </slot>
+  <HeroBanner />
   <Sections />
+  <Contacts />
+  <Address />
+  <Gallery />
 </Layout>

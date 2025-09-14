@@ -1,0 +1,17 @@
+---
+import { getCms } from "../service/api"
+import { getImageUrl } from "../utils/cms"
+
+
+const banner = await getCms('/hero-banner', {
+    populate: '*'
+})
+
+const getImageSourceSetStyle = (image) => {
+  return `background-image: url("${getImageUrl(image.url)}");`
+}
+---
+
+<section class="hero-section" style={getImageSourceSetStyle(banner.HeroImage)}>
+    <div class="content">{banner.quote}</p>
+</section>
