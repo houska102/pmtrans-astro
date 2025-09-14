@@ -1,0 +1,42 @@
+---
+import { getCms } from '../service/api'
+import { getImageUrl } from '../utils/cms'
+
+const sections = await getCms('/categories', {
+    populate: 'image'
+})
+
+const getImageSourceSet = (image) => `
+  ${getImageUrl(image.url)} 1x,
+  ${getImageUrl(image.formats.small.url)} 2x,
+  ${getImageUrl(image.formats.thumbnail.url)} 3x,
+`
+const getSectionClass = (index: number) => {
+  const altBackground = index%2 === 1 && 'alt-bg'
+  return `service-section ${altBackground}`
+}
+---
+{sections.map((section, index) => (
+  <article id={section.identifier} class={getSectionClass(index)}>
+    <div class="container service-grid">
+        <div class="service-text">
+            <h2 class="section-title section-title--left">{section.heading}</h2>
+            {section.description.map((part) => {
+              if (part.type === "paragraph") {
+                return <p>{part.children[0].text}</p>
+              }
+            })}
+        </div>
+        <div class="service-icon-container">
+          <img
+            height="300"
+            width="400"
+            src={getImageUrl(section.image.url)}
+            srcset={getImageSourceSet(section.image)}
+            alt="Logistika"
+            loading="lazy"
+          />
+        </div>
+    </div>
+</article>
+))}

@@ -1,0 +1,19 @@
+---
+import { getCms } from "../service/api"
+
+const contacts = await getCms('/contacts')
+---
+<article id="kontakty" class="contact-section transparent-subtle">
+    <div class="container">
+        <h2 class="section-title">Kontakty</h2>
+        <div class="contact-grid">
+            {contacts.map(contact => (
+              <div class="contact-card">
+                  <h3>{contact.title}</h3>
+                  <p class="contact-name">{contact.name}</p>
+                  <p class="contact-detail"><strong>Tel:</strong> {contact.phone}</p>
+              </div>
+            ))}
+        </div>
+    </div>
+</article>

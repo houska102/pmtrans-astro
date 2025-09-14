@@ -1,22 +1,142 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+---
+import Contacts from "../components/Contacts.astro";
+import Gallery from "../components/Gallery.astro";
+import Navigation from "../components/Navigation.astro";
+import StructuredText from "../components/StructuredText.html"
+import '../styles/style.css';
+---
+
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM trans Ostrov s.r.o. - Logistika a Servis</title>
+    
+    <meta name="description" content="Váš partner v logistice a servisu.">
+    
+    <link rel="preload" as="image" href="./banners/hero-original.webp" type="image/webp" fetchpriority="high" media="(resolution: 1dppx)">
+    <link rel="preload" as="image" href="./banners/hero-large.webp" type="image/webp" fetchpriority="high" media="(resolution: 2dppx)">
+    <link rel="preload" as="image" href="./banners/hero-medium.webp" type="image/webp" fetchpriority="high" media="(resolution: 4dppx)">
+    <link rel="preload" as="image" href="./banners/hero-small.webp" type="image/webp" fetchpriority="high" media="(resolution: 8dppx)">
+
+
+    <link rel="preload" as="font" href="./fonts/roboto-v48-latin_latin-ext-600.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="./fonts/roboto-v48-latin_latin-ext-600italic.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="./fonts/roboto-v48-latin_latin-ext-700.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="./fonts/roboto-v48-latin_latin-ext-700italic.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="./fonts/roboto-v48-latin_latin-ext-italic.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="./fonts/roboto-v48-latin_latin-ext-regular.woff2" type="font/woff2" crossorigin>
+
+    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css" defer>
+
+    <StructuredText />
+  </head>
+  <body>
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="#main-content" class="logo">
+                  <h1>PM trans Ostrov s.r.o.</h1>
+                </a>
+                <Navigation />
+            </nav>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="hero-section">
+            <div class="content">Váš partner v logistice a servisu.</p>
+        </section>
+        <slot></slot>
+
+        <Contacts />
+        
+        <article id="address-map-section" class="transparent-subtle">
+            <h2 class="section-title">Naše provozovna</h2>
+            <div class="container address-map-grid">
+                <section class="address-details-container">
+                  <h3>Adresa</h3>
+                  <address class="address-details">
+                      <p>
+                        Jáchymovská 1424<br>
+                        Ostrov 363 01<br>
+                        Česká Republika
+                      </p>
+                  </address>
+                </section>
+                <section class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d794.0945443962256!2d12.946903253801041!3d50.31602285176648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a0a189c27cdd83%3A0xe17c0d1ab925a8a0!2sPM%20Trans%20Ostrov%20s.r.o.!5e0!3m2!1scs!2scz!4v1750363277801!5m2!1scs!2scz" 
+                        width="600" 
+                        height="450"
+                        allowfullscreen=""
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </section>
+            </div>
+        </article>
+        <Gallery />
+    </main>
+    
+    <footer class="main-footer-bottom">
+        <div class="container">
+            <p>&copy; 2025 PM trans Ostrov s.r.o. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+    <script>
+      window.onload = () => {
+        const navLinks = document.querySelectorAll('.nav-links a');
+        let activeSection = window.location.hash
+
+        const selectMenuItem = (sectionId) => {
+          navLinks.forEach(link => {
+            if (link.getAttribute('href') === sectionId) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          })
+        }
+
+        if (activeSection) {
+          selectMenuItem(activeSection);
+        }
+        
+
+        const toggleMenu = () => {
+          document.querySelector('.nav-links').classList.toggle('open');
+          document.querySelector('.hamburger').classList.toggle('active');
+          document.getElementById('menu-backdrop').classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+          link.addEventListener('click', function() {
+            const isBackdropActive = document.getElementById('menu-backdrop').classList.contains('active');
+            if (isBackdropActive) {
+              toggleMenu();
+            }
+          });
+        });
+
+        document.getElementById('menu-backdrop').addEventListener('click', toggleMenu)
+
+        document.querySelector('.hamburger').addEventListener('click', toggleMenu)
+        const sections = document.querySelectorAll('#main-content>article');
+        window.addEventListener('scroll', () => {
+          const scrollPosition = window.scrollY;
+          for (let section of sections) {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionTop + sectionHeight) {
+              selectMenuItem(`#${sectionId}`);
+            }
+          }
+        });
+      }
+    </script>
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
